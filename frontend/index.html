@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -344,3 +345,395 @@
     <script src="script.js"></script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Policy Management - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal active">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <i class="fas fa-shield-alt"></i>
+                    <h1>InsureHub</h1>
+                    <p>Policy Management System</p>
+                </div>
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    <p class="login-footer">Don't have an account? <a href="signup.html">Sign up</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard hidden">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-top">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>InsureHub</span>
+                </div>
+                <div class="header-right">
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="user-profile">
+                        <img id="profileImg" src="https://via.placeholder.com/40" alt="Profile">
+                        <div class="dropdown-menu">
+                            <a href="#"><i class="fas fa-user"></i> My Profile</a>
+                            <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <div class="welcome-card">
+                    <div class="welcome-text">
+                        <h2>Welcome back, <span id="userName">User</span>!</h2>
+                        <p>Manage your insurance policies with ease</p>
+                    </div>
+                    <div class="welcome-badge">
+                        <span id="statusBadge" class="badge badge-gold">Gold Member</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Stats -->
+            <section class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="policiesCount">0</h3>
+                        <p>My Policies</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="premiumCount">₹0</h3>
+                        <p>Premium Due</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Make Payment</h3>
+                        <p>Online Payment</p>
+                    </div>
+                    <button class="card-btn" onclick="openPaymentModal()">Pay Now</button>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="activeCount">0</h3>
+                        <p>Active Policies</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Policies Section -->
+            <section class="policies-section">
+                <div class="section-header">
+                    <h2>My Policies</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-primary" onclick="openAddPolicyModal()">Add Policy</button>
+                        <a href="#" class="view-all">View All</a>
+                    </div>
+                </div>
+                <div id="policiesList" class="policies-grid">
+                    <!-- Policies will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions-section">
+                <h2>Quick Actions</h2>
+                <div class="actions-grid">
+                    <div class="action-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Verification Status</h3>
+                        <p>Check your KYC verification</p>
+                        <button class="btn btn-outline" onclick="openVerificationModal()">Check Status</button>
+                    </div>
+
+                    <div class="action-card">
+                        <i class="fas fa-file-upload"></i>
+                        <h3>Upload Documents</h3>
+                        <p>Submit required documents</p>
+                        <button class="btn btn-outline" onclick="openDocumentModal()">Upload</button>
+                    </div>
+
+                    <div class="action-card">
+                        <i class="fas fa-download"></i>
+                        <h3>Download Statements</h3>
+                        <p>Get your policy documents</p>
+                        <button class="btn btn-outline" onclick="downloadStatement()">Download</button>
+                    </div>
+
+                    <div class="action-card">
+                        <i class="fas fa-calculator"></i>
+                        <h3>Premium Calculator</h3>
+                        <p>Calculate your premium</p>
+                        <button class="btn btn-outline" onclick="openCalculator()">Calculate</button>
+                    </div>
+
+                    <div class="action-card">
+                        <i class="fas fa-phone"></i>
+                        <h3>Contact Agent</h3>
+                        <p>Get support from our team</p>
+                        <button class="btn btn-outline" onclick="contactAgent()">Contact</button>
+                    </div>
+
+                    <div class="action-card">
+                        <i class="fas fa-history"></i>
+                        <h3>Payment History</h3>
+                        <p>View past transactions</p>
+                        <button class="btn btn-outline" onclick="viewPaymentHistory()">History</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" onclick="navigateTo('home', event)">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateTo('services', event)">
+                <i class="fas fa-concierge-bell"></i>
+                <span>Services</span>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateTo('history', event)">
+                <i class="fas fa-history"></i>
+                <span>History</span>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateTo('help', event)">
+                <i class="fas fa-question-circle"></i>
+                <span>Help</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Policy Details Modal -->
+    <div id="policyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePolicyModal()">&times;</span>
+            <h2>Policy Details</h2>
+            <div id="policyDetails" class="policy-details">
+                <!-- Details will be loaded here -->
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="closePolicyModal()">Close</button>
+                <button class="btn btn-primary" onclick="buyTopup()">Buy Add-on</button>
+                <button class="btn btn-primary" onclick="startClaimProcess()">Claim</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePaymentModal()">&times;</span>
+            <h2>Online Payment</h2>
+            <form id="paymentForm" class="payment-form">
+                <div class="form-group">
+                    <label for="selectPolicy">Select Policy</label>
+                    <select id="selectPolicy" name="policy" required>
+                        <option value="">Choose a policy...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input type="number" id="amount" name="amount" placeholder="Enter amount" step="0.01" required readonly>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <div class="payment-methods">
+                        <label><input type="radio" name="paymentMethod" value="card" checked> Card</label>
+                        <label><input type="radio" name="paymentMethod" value="upi"> UPI</label>
+                    </div>
+                </div>
+                <div id="cardDetails">
+                    <div class="form-group">
+                        <label for="cardName">Cardholder Name</label>
+                        <input type="text" id="cardName" name="cardName" placeholder="Full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="cardNumber">Card Number</label>
+                        <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expiry">Expiry Date</label>
+                            <input type="text" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5">
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CVV</label>
+                            <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="3">
+                        </div>
+                    </div>
+                </div>
+                <div id="upiDetails" style="display:none;">
+                    <div class="form-group">
+                        <label for="upiId">UPI ID</label>
+                        <input type="text" id="upiId" name="upiId" placeholder="yourname@upi">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Pay Now</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Payment History Modal -->
+    <div id="historyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeHistoryModal()">&times;</span>
+            <h2>Payment History</h2>
+            <div id="paymentHistory" class="payment-history">
+                <!-- Payment history will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Policy Modal (Multi-Step) -->
+    <div id="addPolicyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddPolicyModal()">&times;</span>
+            <h2>Add New Policy</h2>
+            <div id="addPolicyStep1">
+                <form id="addPolicyForm" class="policy-form">
+                    <div class="form-group">
+                        <label for="policyDropdown">Policy Name</label>
+                        <div class="dropdown-wrapper">
+                            <select id="policyDropdown" name="policy_name" required>
+                                <option value="">Select Policy Type</option>
+                                <option value="Health Insurance">Health Insurance</option>
+                                <option value="Vehicle Insurance">Vehicle Insurance</option>
+                                <option value="Property Insurance">Property Insurance</option>
+                                <option value="Life Insurance">Life Insurance</option>
+                            </select>
+                            <span class="dropdown-arrow"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sumAssured">Sum Assured</label>
+                        <input type="number" id="sumAssured" name="sum_assured" placeholder="100000" step="1000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="monthlyPayment">Monthly Payment</label>
+                        <input type="number" id="monthlyPayment" name="monthly_payment" placeholder="1000" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="termMonths">Number of Months</label>
+                        <input type="number" id="termMonths" name="term_months" placeholder="12" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentRange">Payment Range</label>
+                        <input type="text" id="paymentRange" name="payment_range" placeholder="e.g., ₹1000 x 12 months" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="dueDate">Due Date</label>
+                        <input type="date" id="dueDate" name="due_date" readonly>
+                    </div>
+                    <button type="button" class="btn btn-outline btn-block" id="calculatePremiumBtn">Calculate</button>
+                    <button type="button" class="btn btn-primary btn-block" id="nextToDocumentsBtn">Next</button>
+                </form>
+            </div>
+            <div id="addPolicyStep2" style="display:none;">
+                <h3>Upload Required Documents</h3>
+                <form id="policyDocumentsForm">
+                    <div id="documentsAccordion" class="accordion"></div>
+                    <button type="button" class="btn btn-outline btn-block" id="backToDetailsBtn">Back</button>
+                    <button type="submit" class="btn btn-primary btn-block">Add Policy</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Upload Modal -->
+    <div id="documentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDocumentModal()">&times;</span>
+            <h2>Upload Documents</h2>
+            <form id="documentForm" class="document-form">
+                <div class="form-group">
+                    <label for="docType">Document Type</label>
+                    <select id="docType" name="documentType" required>
+                        <option value="">Select Document Type</option>
+                        <option value="Aadhar Card">Aadhar Card</option>
+                        <option value="PAN Card">PAN Card</option>
+                        <option value="Driving License">Driving License</option>
+                        <option value="Passport">Passport</option>
+                        <option value="Medical Report">Medical Report</option>
+                        <option value="RC Book">RC Book (Vehicle)</option>
+                        <option value="Property Papers">Property Papers</option>
+                        <option value="Bank Statement">Bank Statement</option>
+                        <option value="Income Proof">Income Proof</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="policySelect">Related Policy (Optional)</label>
+                    <select id="policySelect" name="policyId">
+                        <option value="">Select Policy</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="docFile">Select File</label>
+                    <input type="file" id="docFile" accept=".pdf,.jpg,.jpeg,.png" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Upload Document</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Verification Status Modal -->
+    <div id="verificationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeVerificationModal()">&times;</span>
+            <h2>Verification Status</h2>
+            <div id="verificationContent" class="verification-content">
+                <!-- Verification status will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+>>>>>>> d9c3d0f (Updated new details in project)
